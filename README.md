@@ -25,3 +25,19 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+
+## Basic MEAN Setup
+
+1.  a. Node-> Express: Create server.js in root directory, generic working code included
+
+b. Install express npm i --save express
+
+c. create backend folder in root directory and app.js to incorporate express
+
+d. npm i --save-dev nodemon, update package.json scripts with "start:server": "nodemon server.js", which can be run in terminal with 'npm run start:server'
+
+e. now once server is setup and running, you should be able to go to the localhost:5000/api/posts to see the tests posts listed on the server via const posts in app.js available for grabbing by angular
+
+2. Connect Angular to grab server data
+   a. import HttpClientModule in app.module
+   b. in data service import HttpClient and use this.http to communicate with server via GET/POST/PATCH/etc through methods on front end.
