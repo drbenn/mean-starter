@@ -3,7 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 
 import { Post } from './models/post.model';
-import { PostsService } from './services/server.service';
+import { PostsService } from './services/dbPost.service';
 
 @Component({
   selector: 'app-root',
@@ -29,15 +29,19 @@ export class AppComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy() {
-    this.postsSub.unsubscribe();
-  }
-
   onAddPost(form: NgForm) {
     if (form.invalid) {
       return;
     }
     this.postsService.addPost(form.value.title, form.value.content);
     form.resetForm();
+  }
+
+  onDelete(postId: string) {
+    this.postsService.deletePost(postId);
+  }
+
+  ngOnDestroy() {
+    this.postsSub.unsubscribe();
   }
 }

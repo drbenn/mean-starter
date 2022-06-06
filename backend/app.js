@@ -1,7 +1,19 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
+
+const Post = require("./models/post");
 
 const app = express();
+
+mongoose
+  .connect(
+    "mongodb+srv://dbennett1084:J3oz5bXaSNs0@cluster0.3ktp2n2.mongodb.net/mean-starter?retryWrites=true&w=majority"
+  )
+  .then(() => {
+    console.log("Connected to database!");
+  })
+  .catch(() => console.log("Connection failed!"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,40 +32,36 @@ app.use((req, res, next) => {
 });
 
 app.post("/api/posts", (req, res, next) => {
-  const post = req.body;
-  console.log(post);
-  res.status(201).json({
-    message: "Post added successfully",
+  // Previous used for Node.js connection only
+  // const post = req.body;
+  const post = new Post({
+    title: req.body.title,
+    content: req.body.content,
+  });
+  post.save().then((result) => {
+    console.log(post);
+    res.status(201).json({
+      message: "Post added successfully",
+      postId: result._id,
+    });
   });
 });
 
 app.get("/api/posts", (req, res, next) => {
-  //Server Test Data
-  const posts = [
-    {
-      id: "001",
-      title: "1st Post",
-      content: "Data 1 coming from server",
-    },
-    {
-      id: "002",
-      title: "2nd Post",
-      content: "Data 2 coming from server",
-    },
-    {
-      id: "003",
-      title: "3rd Post",
-      content: "Data 3 coming from server",
-    },
-    {
-      id: "004",
-      title: "4th Post",
-      content: "Data 4 coming from server",
-    },
-  ];
-  res.status(200).json({
-    message: "Posts fetched successfully!",
-    posts: posts,
+  // Mongoose MongoDB connection
+  // find() by itself will return all collections
+  Post.find().then((documents) => {
+    res.status(200).json({
+      message: "Posts fetched successfully!",
+      posts: documents,
+    });
+  });
+});
+
+app.delete("/api/posts/:id", (req, res, next) => {
+  Post.deleteOne({ _id: req.params.id }).then((result) => {
+    console.log(result);
+    res.status(200).json({ message: "Post deleted!" });
   });
 });
 

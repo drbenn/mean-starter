@@ -37,8 +37,8 @@
     </p>
     <p>{{ post.content }}</p>
     <div>
-      <button>EDIT</button>
-      <button>DELETE</button>
+      <button>Edit</button>
+      <button (click)="onDelete(post.id)">Delete</button>
     </div>
   </div>
 </div>

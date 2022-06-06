@@ -41,3 +41,11 @@ e. now once server is setup and running, you should be able to go to the localho
 2. Connect Angular to grab server data
    a. import HttpClientModule in app.module
    b. in data service import HttpClient and use this.http to communicate with server via GET/POST/PATCH/etc through methods on front end.
+
+3. Setup MongoDB
+
+4. Install/Setup Mongoose
+   a. npm i --save mongoose
+   b. Create model post.js in new model folder in backend folder
+   c. Create Mongoose schema and model in backend>models>post.js
+   d. update app.js to include new Post model, mongoose and mongoDB storage location
